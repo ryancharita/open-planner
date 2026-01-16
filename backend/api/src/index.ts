@@ -1,7 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { getSupabaseService, getUserId, clerkAuthMiddleware, supabaseMiddleware } from './middleware/auth.middleware';
-import { getOrCreateUser } from './utils/users';
+import { getSupabaseService, getUserId, clerkAuthMiddleware, supabaseMiddleware } from './middleware/auth.middleware.ts';
+import { getOrCreateUser } from './utils/users.ts';
 import {
   getCategories,
   createCategory,
@@ -9,7 +9,7 @@ import {
   deleteCategory,
   type CreateCategoryInput,
   type UpdateCategoryInput,
-} from './utils/categories';
+} from './utils/categories.ts';
 import {
   getExpenses,
   getMonthlyExpensesByCategory,
@@ -20,7 +20,7 @@ import {
   type CreateExpenseInput,
   type UpdateExpenseInput,
   type MonthlyExpenseByCategory,
-} from './utils/expenses';
+} from './utils/expenses.ts';
 import {
   getIncome,
   getTotalMonthlyIncome,
@@ -29,7 +29,7 @@ import {
   deleteIncome,
   type CreateIncomeInput,
   type UpdateIncomeInput,
-} from './utils/income';
+} from './utils/income.ts';
 import {
   getLoans,
   createLoan,
@@ -37,7 +37,7 @@ import {
   deleteLoan,
   type CreateLoanInput,
   type UpdateLoanInput,
-} from './utils/loans';
+} from './utils/loans.ts';
 import {
   getRecurringItems,
   createRecurringItem,
@@ -46,9 +46,9 @@ import {
   generateRecurringExpenses,
   type CreateRecurringItemInput,
   type UpdateRecurringItemInput,
-} from './utils/recurring-items';
-import { calculateTotalLoanObligations, calculateMonthlyPayment } from './utils/loans';
-import { getInsights } from './utils/insights';
+} from './utils/recurring-items.ts';
+import { calculateTotalLoanObligations, calculateMonthlyPayment } from './utils/loans.ts';
+import { getInsights } from './utils/insights.ts';
 import {
   validateUUID,
   validateAmount,
@@ -58,13 +58,13 @@ import {
   validateBackdatedEntry,
   validateFutureDate,
   validateDescription,
-} from './utils/validation';
+} from './utils/validation.ts';
 
 const app = new Hono();
 
 // Enable CORS for frontend
 app.use('*', cors({
-  origin: ['http://localhost:3000', "https://open-planner.vercel.app/"],
+  origin: ['http://localhost:3000', "https://open-planner.vercel.app"],
   credentials: true,
 }));
 
@@ -1297,7 +1297,7 @@ app.get('/api/insights', async (c) => {
   }
 });
 
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 
 // export default {
 //   port,

@@ -85,10 +85,15 @@ export const supabaseMiddleware = (): MiddlewareHandler => {
     const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
         getAll() {
-          return parseCookieHeader(c.req.header('Cookie') ?? '')
+          return parseCookieHeader(c.req.header('Cookie') ?? '').map(cookie => ({
+            name: cookie.name,
+            value: cookie.value ?? ''
+          }))
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => setCookie(c, name, value, options))
+          cookiesToSet.forEach(({ name, value, options }) => {
+            setCookie(c, name, value, options as any)
+          })
         },
       },
     })

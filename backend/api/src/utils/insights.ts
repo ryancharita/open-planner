@@ -1,7 +1,7 @@
 import { SupabaseClient } from '@supabase/supabase-js'
-import { getTotalMonthlyIncome } from './income'
-import { getTotalMonthlySpend, type MonthlyExpenseByCategory } from './expenses'
-import { getLoans, calculateMonthlyPayment, type Loan } from './loans'
+import { getTotalMonthlyIncome } from './income.ts'
+import { getTotalMonthlySpend, type MonthlyExpenseByCategory } from './expenses.ts'
+import { getLoans, calculateMonthlyPayment, type Loan } from './loans.ts'
 
 export interface Insight {
   type: 'overspending' | 'loan_acceleration' | 'month_over_month'

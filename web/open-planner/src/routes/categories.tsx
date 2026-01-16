@@ -37,7 +37,7 @@ function CategoriesPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('http://localhost:3001/api/categories', {
+      const response = await fetch('import.meta.env.VITE_API_UPL/api/categories', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ function CategoriesPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('http://localhost:3001/api/categories', {
+      const response = await fetch('import.meta.env.VITE_API_UPL/api/categories', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -112,7 +112,7 @@ function CategoriesPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch(`http://localhost:3001/api/categories/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_UPL + `/api/categories/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -156,7 +156,7 @@ function CategoriesPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch(`http://localhost:3001/api/categories/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_UPL + `/api/categories/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

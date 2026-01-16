@@ -39,7 +39,7 @@ function LoansPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('http://localhost:3001/api/loans', {
+      const response = await fetch('import.meta.env.VITE_API_UPL/api/loans', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ function LoansPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('http://localhost:3001/api/loans', {
+      const response = await fetch('import.meta.env.VITE_API_UPL/api/loans', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -110,7 +110,7 @@ function LoansPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch(`http://localhost:3001/api/loans/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_UPL + `/api/loans/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -146,7 +146,7 @@ function LoansPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch(`http://localhost:3001/api/loans/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_UPL + `/api/loans/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

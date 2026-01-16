@@ -38,7 +38,7 @@ function RecurringItemsPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('http://localhost:3001/api/categories', {
+      const response = await fetch('import.meta.env.VITE_API_UPL/api/categories', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ function RecurringItemsPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('http://localhost:3001/api/recurring-items', {
+      const response = await fetch('import.meta.env.VITE_API_UPL/api/recurring-items', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ function RecurringItemsPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('http://localhost:3001/api/recurring-items', {
+      const response = await fetch('import.meta.env.VITE_API_UPL/api/recurring-items', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -139,7 +139,7 @@ function RecurringItemsPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch(`http://localhost:3001/api/recurring-items/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_UPL + `/api/recurring-items/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -175,7 +175,7 @@ function RecurringItemsPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch(`http://localhost:3001/api/recurring-items/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_UPL + `/api/recurring-items/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -206,7 +206,7 @@ function RecurringItemsPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch(`http://localhost:3001/api/recurring-items/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_UPL + `/api/recurring-items/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

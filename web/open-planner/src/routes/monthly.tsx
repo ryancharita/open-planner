@@ -56,7 +56,7 @@ function MonthlyPage() {
       // Fetch both expenses and income in parallel
       const [expensesResponse, incomeResponse] = await Promise.all([
         fetch(
-          `http://localhost:3001/api/expenses/monthly?year=${selectedYear}&month=${selectedMonth}`,
+          import.meta.env.VITE_API_UPL + `/api/expenses/monthly?year=${selectedYear}&month=${selectedMonth}`,
           {
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -65,7 +65,7 @@ function MonthlyPage() {
           }
         ),
         fetch(
-          `http://localhost:3001/api/income/monthly?year=${selectedYear}&month=${selectedMonth}`,
+          import.meta.env.VITE_API_UPL + `/api/income/monthly?year=${selectedYear}&month=${selectedMonth}`,
           {
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -199,33 +199,29 @@ function MonthlyPage() {
 
         {/* Leftover Money - Single Summary Number */}
         {leftoverMoney !== null && (
-          <Card className={`glass mb-8 ${
-            leftoverMoney >= 0
-              ? 'border-emerald-500/50 bg-gradient-to-r from-emerald-600/20 to-green-600/20'
-              : 'border-red-500/50 bg-gradient-to-r from-red-600/20 to-rose-600/20'
-          }`}>
+          <Card className={`glass mb-8 ${leftoverMoney >= 0
+            ? 'border-emerald-500/50 bg-gradient-to-r from-emerald-600/20 to-green-600/20'
+            : 'border-red-500/50 bg-gradient-to-r from-red-600/20 to-rose-600/20'
+            }`}>
             <CardContent className="p-8">
               <div className="flex items-center justify-center gap-4">
-                <div className={`p-4 rounded-xl ${
-                  leftoverMoney >= 0
-                    ? 'bg-emerald-600/30'
-                    : 'bg-red-600/30'
-                }`}>
-                  <TrendingUp className={`w-10 h-10 ${
-                    leftoverMoney >= 0
-                      ? 'text-emerald-300'
-                      : 'text-red-300'
-                  }`} />
+                <div className={`p-4 rounded-xl ${leftoverMoney >= 0
+                  ? 'bg-emerald-600/30'
+                  : 'bg-red-600/30'
+                  }`}>
+                  <TrendingUp className={`w-10 h-10 ${leftoverMoney >= 0
+                    ? 'text-emerald-300'
+                    : 'text-red-300'
+                    }`} />
                 </div>
                 <div className="text-center">
                   <p className="text-slate-400 text-sm uppercase tracking-wider mb-2">
                     Leftover Money
                   </p>
-                  <p className={`text-5xl md:text-6xl font-black ${
-                    leftoverMoney >= 0
-                      ? 'text-emerald-300'
-                      : 'text-red-300'
-                  }`}>
+                  <p className={`text-5xl md:text-6xl font-black ${leftoverMoney >= 0
+                    ? 'text-emerald-300'
+                    : 'text-red-300'
+                    }`}>
                     {formatCurrency(leftoverMoney)}
                   </p>
                   <p className="text-slate-400 text-sm mt-2">
@@ -300,50 +296,50 @@ function MonthlyPage() {
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-white/10">
-                      <th className="px-6 py-4 text-left text-sm font-semibold text-slate-300 uppercase tracking-wider">
-                        Category
-                      </th>
-                      <th className="px-6 py-4 text-right text-sm font-semibold text-slate-300 uppercase tracking-wider">
-                        Count
-                      </th>
-                      <th className="px-6 py-4 text-right text-sm font-semibold text-slate-300 uppercase tracking-wider">
-                        Total Amount
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.expensesByCategory.map((expense) => (
-                      <tr
-                        key={expense.category_id}
-                        className="border-b border-white/5 hover:bg-white/5 transition-colors"
-                      >
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            {expense.category_icon && (
-                              <span className="text-2xl">{expense.category_icon}</span>
-                            )}
-                            <div>
-                              <p className="text-white font-semibold">
-                                {expense.category_name}
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-right text-slate-300">
-                          {expense.expense_count} {expense.expense_count === 1 ? 'expense' : 'expenses'}
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <span className="text-white font-bold text-lg">
-                            {formatCurrency(expense.total_amount)}
-                          </span>
-                        </td>
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-white/10">
+                        <th className="px-6 py-4 text-left text-sm font-semibold text-slate-300 uppercase tracking-wider">
+                          Category
+                        </th>
+                        <th className="px-6 py-4 text-right text-sm font-semibold text-slate-300 uppercase tracking-wider">
+                          Count
+                        </th>
+                        <th className="px-6 py-4 text-right text-sm font-semibold text-slate-300 uppercase tracking-wider">
+                          Total Amount
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {data.expensesByCategory.map((expense) => (
+                        <tr
+                          key={expense.category_id}
+                          className="border-b border-white/5 hover:bg-white/5 transition-colors"
+                        >
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-3">
+                              {expense.category_icon && (
+                                <span className="text-2xl">{expense.category_icon}</span>
+                              )}
+                              <div>
+                                <p className="text-white font-semibold">
+                                  {expense.category_name}
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 text-right text-slate-300">
+                            {expense.expense_count} {expense.expense_count === 1 ? 'expense' : 'expenses'}
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <span className="text-white font-bold text-lg">
+                              {formatCurrency(expense.total_amount)}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </CardContent>

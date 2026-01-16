@@ -82,7 +82,7 @@ function DashboardPage() {
       if (!token) throw new Error('Failed to get token');
 
       const response = await fetch(
-        `http://localhost:3001/api/dashboard/monthly?year=${selectedYear}&month=${selectedMonth}`,
+        import.meta.env.VITE_API_UPL + `/api/dashboard/monthly?year=${selectedYear}&month=${selectedMonth}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -101,7 +101,7 @@ function DashboardPage() {
 
       // Fetch insights in parallel
       const insightsResponse = await fetch(
-        `http://localhost:3001/api/insights?year=${selectedYear}&month=${selectedMonth}`,
+        import.meta.env.VITE_API_UPL + `/api/insights?year=${selectedYear}&month=${selectedMonth}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -306,23 +306,20 @@ function DashboardPage() {
             </Card>
 
             {/* Remaining Balance */}
-            <Card className={`glass ${
-              data.remainingBalance >= 0
-                ? 'border-emerald-500/50 bg-gradient-to-br from-emerald-600/20 to-green-600/20'
-                : 'border-red-500/50 bg-gradient-to-br from-red-600/20 to-rose-600/20'
-            }`}>
+            <Card className={`glass ${data.remainingBalance >= 0
+              ? 'border-emerald-500/50 bg-gradient-to-br from-emerald-600/20 to-green-600/20'
+              : 'border-red-500/50 bg-gradient-to-br from-red-600/20 to-rose-600/20'
+              }`}>
               <CardContent className="p-6">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className={`p-3 rounded-xl ${
-                    data.remainingBalance >= 0
-                      ? 'bg-emerald-600/30'
-                      : 'bg-red-600/30'
-                  }`}>
-                    <Wallet className={`w-6 h-6 ${
-                      data.remainingBalance >= 0
-                        ? 'text-emerald-300'
-                        : 'text-red-300'
-                    }`} />
+                  <div className={`p-3 rounded-xl ${data.remainingBalance >= 0
+                    ? 'bg-emerald-600/30'
+                    : 'bg-red-600/30'
+                    }`}>
+                    <Wallet className={`w-6 h-6 ${data.remainingBalance >= 0
+                      ? 'text-emerald-300'
+                      : 'text-red-300'
+                      }`} />
                   </div>
                   <div>
                     <p className="text-slate-400 text-sm uppercase tracking-wider">
@@ -330,11 +327,10 @@ function DashboardPage() {
                     </p>
                   </div>
                 </div>
-                <p className={`text-3xl font-black ${
-                  data.remainingBalance >= 0
-                    ? 'text-emerald-300'
-                    : 'text-red-300'
-                }`}>
+                <p className={`text-3xl font-black ${data.remainingBalance >= 0
+                  ? 'text-emerald-300'
+                  : 'text-red-300'
+                  }`}>
                   {formatCurrency(data.remainingBalance)}
                 </p>
               </CardContent>
@@ -371,12 +367,11 @@ function DashboardPage() {
                   return (
                     <Alert
                       key={index}
-                      className={`glass ${
-                        insight.severity === 'error' ? 'border-red-500/50 bg-red-500/10' :
+                      className={`glass ${insight.severity === 'error' ? 'border-red-500/50 bg-red-500/10' :
                         insight.severity === 'warning' ? 'border-amber-500/50 bg-amber-500/10' :
-                        insight.severity === 'info' ? 'border-blue-500/50 bg-blue-500/10' :
-                        'border-emerald-500/50 bg-emerald-500/10'
-                      }`}
+                          insight.severity === 'info' ? 'border-blue-500/50 bg-blue-500/10' :
+                            'border-emerald-500/50 bg-emerald-500/10'
+                        }`}
                     >
                       {severityIcons[insight.severity]}
                       <AlertTitle className={insight.severity === 'error' ? 'text-red-300' : insight.severity === 'warning' ? 'text-amber-300' : insight.severity === 'info' ? 'text-blue-300' : 'text-emerald-300'}>
@@ -411,35 +406,34 @@ function DashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-              <div className="flex items-center justify-between py-3 border-b border-white/10">
-                <span className="text-slate-300">Total Income</span>
-                <span className="text-emerald-400 font-semibold text-lg">
-                  {formatCurrency(data.income)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between py-3 border-b border-white/10">
-                <span className="text-slate-300">Total Expenses</span>
-                <span className="text-red-400 font-semibold text-lg">
-                  -{formatCurrency(data.expenses)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between py-3 border-b border-white/10">
-                <span className="text-slate-300">Loan Obligations</span>
-                <span className="text-amber-400 font-semibold text-lg">
-                  -{formatCurrency(data.loanObligations)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between py-4 pt-6 border-t-2 border-white/20">
-                <span className="text-white font-bold text-xl">Remaining Balance</span>
-                <span className={`font-black text-2xl ${
-                  data.remainingBalance >= 0
+                <div className="flex items-center justify-between py-3 border-b border-white/10">
+                  <span className="text-slate-300">Total Income</span>
+                  <span className="text-emerald-400 font-semibold text-lg">
+                    {formatCurrency(data.income)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-3 border-b border-white/10">
+                  <span className="text-slate-300">Total Expenses</span>
+                  <span className="text-red-400 font-semibold text-lg">
+                    -{formatCurrency(data.expenses)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-3 border-b border-white/10">
+                  <span className="text-slate-300">Loan Obligations</span>
+                  <span className="text-amber-400 font-semibold text-lg">
+                    -{formatCurrency(data.loanObligations)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-4 pt-6 border-t-2 border-white/20">
+                  <span className="text-white font-bold text-xl">Remaining Balance</span>
+                  <span className={`font-black text-2xl ${data.remainingBalance >= 0
                     ? 'text-emerald-400'
                     : 'text-red-400'
-                }`}>
-                  {formatCurrency(data.remainingBalance)}
-                </span>
+                    }`}>
+                    {formatCurrency(data.remainingBalance)}
+                  </span>
+                </div>
               </div>
-            </div>
             </CardContent>
           </Card>
         )}
@@ -454,45 +448,45 @@ function DashboardPage() {
               </CardHeader>
               <CardContent>
                 {data.expensesByCategory.length === 0 ? (
-                <div className="flex items-center justify-center h-64 text-slate-400">
-                  <p>No expenses data available</p>
-                </div>
-              ) : (
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Pie
-                      data={data.expensesByCategory.map(cat => ({
-                        name: cat.category_name,
-                        value: cat.total_amount,
-                        icon: cat.category_icon,
-                      }))}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                      outerRadius={80}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {data.expensesByCategory.map((entry, index) => {
-                        // Parse color or use default
-                        const color = entry.category_color || '#3B82F6';
-                        return <Cell key={`cell-${index}`} fill={color} />;
-                      })}
-                    </Pie>
-                    <Tooltip
-                      formatter={(value: number) => formatCurrency(value)}
-                      contentStyle={{
-                        backgroundColor: 'rgba(15, 23, 42, 0.9)',
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        borderRadius: '8px',
-                        color: '#fff',
-                      }}
-                    />
-                    <Legend />
-                  </PieChart>
-                </ResponsiveContainer>
-              )}
+                  <div className="flex items-center justify-center h-64 text-slate-400">
+                    <p>No expenses data available</p>
+                  </div>
+                ) : (
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={data.expensesByCategory.map(cat => ({
+                          name: cat.category_name,
+                          value: cat.total_amount,
+                          icon: cat.category_icon,
+                        }))}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {data.expensesByCategory.map((entry, index) => {
+                          // Parse color or use default
+                          const color = entry.category_color || '#3B82F6';
+                          return <Cell key={`cell-${index}`} fill={color} />;
+                        })}
+                      </Pie>
+                      <Tooltip
+                        formatter={(value: number) => formatCurrency(value)}
+                        contentStyle={{
+                          backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                          borderRadius: '8px',
+                          color: '#fff',
+                        }}
+                      />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                )}
               </CardContent>
             </Card>
 
@@ -503,62 +497,62 @@ function DashboardPage() {
               </CardHeader>
               <CardContent>
                 {data.loans.length === 0 ? (
-                <div className="flex items-center justify-center h-64 text-slate-400">
-                  <p>No loans found</p>
-                </div>
-              ) : (
-                <div className="space-y-4 max-h-[300px] overflow-y-auto">
-                  {data.loans.map((loan) => (
-                    <div
-                      key={loan.id}
-                      className="border border-white/10 rounded-xl p-4 hover:bg-white/5 transition-colors"
-                    >
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex-1">
-                          <h4 className="text-white font-semibold mb-1">
-                            {loan.description || 'Unnamed Loan'}
-                          </h4>
-                          <div className="text-sm text-slate-400 space-y-1">
-                            <p>
-                              Principal: {formatCurrency(loan.principal)}
-                            </p>
-                            <p>
-                              Interest Rate: {(loan.interest_rate * 100).toFixed(2)}%
-                            </p>
-                            <p>
-                              Term: {loan.term_months} months
-                            </p>
+                  <div className="flex items-center justify-center h-64 text-slate-400">
+                    <p>No loans found</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4 max-h-[300px] overflow-y-auto">
+                    {data.loans.map((loan) => (
+                      <div
+                        key={loan.id}
+                        className="border border-white/10 rounded-xl p-4 hover:bg-white/5 transition-colors"
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1">
+                            <h4 className="text-white font-semibold mb-1">
+                              {loan.description || 'Unnamed Loan'}
+                            </h4>
+                            <div className="text-sm text-slate-400 space-y-1">
+                              <p>
+                                Principal: {formatCurrency(loan.principal)}
+                              </p>
+                              <p>
+                                Interest Rate: {(loan.interest_rate * 100).toFixed(2)}%
+                              </p>
+                              <p>
+                                Term: {loan.term_months} months
+                              </p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            {loan.is_active ? (
+                              <>
+                                <p className="text-amber-400 font-bold text-lg mb-1">
+                                  {formatCurrency(loan.remaining_balance)}
+                                </p>
+                                <p className="text-xs text-slate-400">
+                                  {formatCurrency(loan.monthly_payment)}/mo
+                                </p>
+                              </>
+                            ) : (
+                              <p className="text-slate-500 text-sm">Paid Off</p>
+                            )}
                           </div>
                         </div>
-                        <div className="text-right">
-                          {loan.is_active ? (
-                            <>
-                              <p className="text-amber-400 font-bold text-lg mb-1">
-                                {formatCurrency(loan.remaining_balance)}
-                              </p>
-                              <p className="text-xs text-slate-400">
-                                {formatCurrency(loan.monthly_payment)}/mo
-                              </p>
-                            </>
-                          ) : (
-                            <p className="text-slate-500 text-sm">Paid Off</p>
-                          )}
-                        </div>
+                        {loan.is_active && (
+                          <div className="mt-3 pt-3 border-t border-white/10">
+                            <div className="flex items-center justify-between text-xs text-slate-400">
+                              <span>Monthly Payment</span>
+                              <span className="text-amber-300 font-semibold">
+                                {formatCurrency(loan.monthly_payment)}
+                              </span>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                      {loan.is_active && (
-                        <div className="mt-3 pt-3 border-t border-white/10">
-                          <div className="flex items-center justify-between text-xs text-slate-400">
-                            <span>Monthly Payment</span>
-                            <span className="text-amber-300 font-semibold">
-                              {formatCurrency(loan.monthly_payment)}
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

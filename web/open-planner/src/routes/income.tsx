@@ -43,7 +43,7 @@ function IncomePage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      let url = 'http://localhost:3001/api/income';
+      let url = 'import.meta.env.VITE_API_UPL/api/income';
       const params = new URLSearchParams();
       if (startDate) params.append('startDate', startDate);
       if (endDate) params.append('endDate', endDate);
@@ -89,7 +89,7 @@ function IncomePage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('http://localhost:3001/api/income', {
+      const response = await fetch('import.meta.env.VITE_API_UPL/api/income', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -122,7 +122,7 @@ function IncomePage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch(`http://localhost:3001/api/income/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_UPL + `/api/income/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -158,7 +158,7 @@ function IncomePage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch(`http://localhost:3001/api/income/${id}`, {
+      const response = await fetch(import.meta.env.VITE_API_UPL + `/api/income/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,

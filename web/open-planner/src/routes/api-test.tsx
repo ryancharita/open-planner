@@ -1,65 +1,65 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useAuth } from '@clerk/clerk-react'
-import { useState } from 'react'
+import { createFileRoute } from '@tanstack/react-router';
+import { useAuth } from '@clerk/clerk-react';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/api-test')({
   component: ApiTestPage,
-})
+});
 
 interface UserData {
-  userId: string
-  clerkUserId: string
-  currency: string
-  created_at: string
-  message: string
+  userId: string;
+  clerkUserId: string;
+  currency: string;
+  created_at: string;
+  message: string;
 }
 
 function ApiTestPage() {
-  const { getToken, isSignedIn } = useAuth()
-  const [userData, setUserData] = useState<UserData | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { getToken, isSignedIn } = useAuth();
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const testApi = async () => {
     if (!isSignedIn) {
-      setError('Please sign in first')
-      return
+      setError('Please sign in first');
+      return;
     }
 
-    setLoading(true)
-    setError(null)
-    setUserData(null)
+    setLoading(true);
+    setError(null);
+    setUserData(null);
 
     try {
       // Get the JWT token from Clerk
-      const token = await getToken()
+      const token = await getToken();
 
       if (!token) {
-        throw new Error('Failed to get token')
+        throw new Error('Failed to get token');
       }
 
       // Call the API with the token
-      const response = await fetch('http://localhost:3001/api/me', {
+      const response = await fetch('import.meta.env.VITE_API_UPL/api/me', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to fetch user')
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch user');
       }
 
-      const data = await response.json()
-      setUserData(data)
+      const data = await response.json();
+      setUserData(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error')
+      setError(err instanceof Error ? err.message : 'Unknown error');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-violet-950/20 to-slate-950 p-6 md:p-8">
@@ -191,5 +191,5 @@ function ApiTestPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

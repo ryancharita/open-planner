@@ -39,7 +39,7 @@ function ApiTestPage() {
       }
 
       // Call the API with the token
-      const response = await fetch('import.meta.env.VITE_API_UPL/api/me', {
+      const response = await fetch(import.meta.env.VITE_API_UPL + '/api/me', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

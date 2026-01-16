@@ -1,22 +1,27 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useAuth } from '@clerk/clerk-react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+
+
+// Components
+import {
+  CreateIncomeModal,
+  ErrorMessage,
+  IncomeEmptyState,
+  IncomeLoadingState,
+  IncomeRow,
+} from '../components/income';
+
+// Types
+import type { Income, IncomeFormData } from '../types/income';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-// Components
-import {
-  IncomeRow,
-  CreateIncomeModal,
-  IncomeEmptyState,
-  IncomeLoadingState,
-  ErrorMessage,
-} from '../components/income';
 
-// Types
-import type { Income, IncomeFormData } from '../types/income';
 
 export const Route = createFileRoute('/income')({
   component: IncomePage,
@@ -24,7 +29,7 @@ export const Route = createFileRoute('/income')({
 
 function IncomePage() {
   const { getToken, isSignedIn } = useAuth();
-  const [income, setIncome] = useState<Income[]>([]);
+  const [income, setIncome] = useState<Array<Income>>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -43,7 +48,7 @@ function IncomePage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      let url = 'import.meta.env.VITE_API_UPL/api/income';
+      let url = import.meta.env.VITE_API_UPL + '/api/income';
       const params = new URLSearchParams();
       if (startDate) params.append('startDate', startDate);
       if (endDate) params.append('endDate', endDate);
@@ -76,7 +81,6 @@ function IncomePage() {
     if (isSignedIn) {
       fetchIncome();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSignedIn, startDate, endDate]);
 
   const handleCreate = async (incomeData: IncomeFormData) => {

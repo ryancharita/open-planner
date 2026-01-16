@@ -42,7 +42,7 @@ function ExpensesPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('import.meta.env.VITE_API_UPL/api/categories', {
+      const response = await fetch(import.meta.env.VITE_API_UPL + '/api/categories', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ function ExpensesPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      let url = 'import.meta.env.VITE_API_UPL/api/expenses';
+      let url = import.meta.env.VITE_API_UPL + '/api/expenses';
       const params = new URLSearchParams();
       if (startDate) params.append('startDate', startDate);
       if (endDate) params.append('endDate', endDate);
@@ -118,7 +118,7 @@ function ExpensesPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('import.meta.env.VITE_API_UPL/api/expenses', {
+      const response = await fetch(import.meta.env.VITE_API_UPL + '/api/expenses', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

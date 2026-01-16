@@ -38,7 +38,7 @@ function RecurringItemsPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('import.meta.env.VITE_API_UPL/api/categories', {
+      const response = await fetch(import.meta.env.VITE_API_UPL + '/api/categories', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ function RecurringItemsPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('import.meta.env.VITE_API_UPL/api/recurring-items', {
+      const response = await fetch(import.meta.env.VITE_API_UPL + '/api/recurring-items', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ function RecurringItemsPage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('import.meta.env.VITE_API_UPL/api/recurring-items', {
+      const response = await fetch(import.meta.env.VITE_API_UPL + '/api/recurring-items', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

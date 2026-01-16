@@ -1,0 +1,15 @@
+{
+  "name": "finance-project",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "cd backend/api && PORT=3001 bun run --hot src/index.tsx",
+    "dev:web": "cd web/open-planner && bun run dev",
+    "start": "concurrently \"npm run start:api\" \"npm run start:web\"",
+    "start:api": "cd backend/api && PORT=3001 bun run src/index.tsx",
+    "start:web": "cd web/open-planner && bun run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

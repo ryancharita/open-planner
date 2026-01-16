@@ -1,10 +1,10 @@
 {
-  "name": "hono-bun-api",
+  "name": "open-planner-api",
   "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "start": "bun run src/index.ts",
-    "build": "tsc --noEmit"
+    "build": "tsc"
   },
   "dependencies": {
     "@clerk/backend": "^2.29.2",

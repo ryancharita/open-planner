@@ -1,64 +1,15 @@
-import { Hono } from 'hono';
-import { cors } from 'hono/cors';
-import { getSupabaseService, getUserId, clerkAuthMiddleware, supabaseMiddleware } from './middleware/auth.middleware.ts';
-import { getOrCreateUser } from './utils/users.ts';
-import {
-  getCategories,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-  type CreateCategoryInput,
-  type UpdateCategoryInput,
-} from './utils/categories.ts';
-import {
-  getExpenses,
-  getMonthlyExpensesByCategory,
-  getTotalMonthlySpend,
-  createExpense,
-  updateExpense,
-  deleteExpense,
-  type CreateExpenseInput,
-  type UpdateExpenseInput,
-  type MonthlyExpenseByCategory,
-} from './utils/expenses.ts';
-import {
-  getIncome,
-  getTotalMonthlyIncome,
-  createIncome,
-  updateIncome,
-  deleteIncome,
-  type CreateIncomeInput,
-  type UpdateIncomeInput,
-} from './utils/income.ts';
-import {
-  getLoans,
-  createLoan,
-  updateLoan,
-  deleteLoan,
-  type CreateLoanInput,
-  type UpdateLoanInput,
-} from './utils/loans.ts';
-import {
-  getRecurringItems,
-  createRecurringItem,
-  updateRecurringItem,
-  deleteRecurringItem,
-  generateRecurringExpenses,
-  type CreateRecurringItemInput,
-  type UpdateRecurringItemInput,
-} from './utils/recurring-items.ts';
-import { calculateTotalLoanObligations, calculateMonthlyPayment } from './utils/loans.ts';
-import { getInsights } from './utils/insights.ts';
-import {
-  validateUUID,
-  validateAmount,
-  validateInterestRate,
-  validateTermMonths,
-  validateDayOfMonth,
-  validateBackdatedEntry,
-  validateFutureDate,
-  validateDescription,
-} from './utils/validation.ts';
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { clerkAuthMiddleware, getSupabaseService, getUserId, supabaseMiddleware } from "./middleware/auth.middleware";
+import { getOrCreateUser } from "./utils/users";
+import { createCategory, CreateCategoryInput, getCategories, updateCategory, UpdateCategoryInput, deleteCategory } from "./utils/categories";
+import { getExpenses, getMonthlyExpensesByCategory, getTotalMonthlySpend, CreateExpenseInput, createExpense, UpdateExpenseInput, updateExpense, deleteExpense } from "./utils/expenses";
+import { getIncome, getTotalMonthlyIncome, CreateIncomeInput, createIncome, UpdateIncomeInput, updateIncome, deleteIncome } from "./utils/income";
+import { getLoans, CreateLoanInput, createLoan, UpdateLoanInput, updateLoan, deleteLoan, calculateTotalLoanObligations, calculateMonthlyPayment } from "./utils/loans";
+import { getRecurringItems, CreateRecurringItemInput, createRecurringItem, UpdateRecurringItemInput, updateRecurringItem, deleteRecurringItem, generateRecurringExpenses } from "./utils/recurring-items";
+import { validateUUID, validateAmount, validateBackdatedEntry, validateDescription, validateInterestRate, validateTermMonths, validateFutureDate, validateDayOfMonth } from "./utils/validation";
+// Use dynamic import for insights to avoid module initialization order issues
+// import { getInsights } from "./utils/insights";
 
 const app = new Hono();
 
@@ -73,6 +24,17 @@ app.use('*', clerkAuthMiddleware());
 
 // Apply Supabase middleware for database operations
 app.use('*', supabaseMiddleware());
+
+const welcomeStrings = [
+  `Hello Hono from Bun ${process.versions.bun}!`,
+  "To learn more about Hono + Bun on Vercel, visit https://vercel.com/docs/frameworks/backend/hono",
+];
+
+app.get("/", (c) => {
+  return c.text(welcomeStrings.join("\n\n"));
+});
+
+
 
 // Health check endpoint
 app.get('/health', (c) => {
@@ -1281,6 +1243,8 @@ app.get('/api/insights', async (c) => {
       return c.json({ error: 'Invalid year or month' }, 400);
     }
 
+    // Use dynamic import to avoid module initialization order issues
+    const { getInsights } = await import("./utils/insights");
     const insights = await getInsights(supabaseService, clerkUserId, year, month);
 
     return c.json({
@@ -1297,13 +1261,8 @@ app.get('/api/insights', async (c) => {
   }
 });
 
-// const port = process.env.PORT || 3000;
+// Export app.fetch for Vercel compatibility
+export default app.fetch;
 
-// export default {
-//   port,
-//   fetch: app.fetch,
-// };
-
-export default app;
-
-// console.log(`🚀 Server running at http://localhost:${port}`);
+// Also export app for local development if needed
+export { app };

@@ -1,64 +1,15 @@
-import { Hono } from 'hono';
-import { cors } from 'hono/cors';
-import { getSupabaseService, getUserId, clerkAuthMiddleware, supabaseMiddleware } from '../src/middleware/auth.middleware.ts';
-import { getOrCreateUser } from '../src/utils/users.ts';
-import {
-  getCategories,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-  type CreateCategoryInput,
-  type UpdateCategoryInput,
-} from '../src/utils/categories.ts';
-import {
-  getExpenses,
-  getMonthlyExpensesByCategory,
-  getTotalMonthlySpend,
-  createExpense,
-  updateExpense,
-  deleteExpense,
-  type CreateExpenseInput,
-  type UpdateExpenseInput,
-  type MonthlyExpenseByCategory,
-} from '../src/utils/expenses.ts';
-import {
-  getIncome,
-  getTotalMonthlyIncome,
-  createIncome,
-  updateIncome,
-  deleteIncome,
-  type CreateIncomeInput,
-  type UpdateIncomeInput,
-} from '../src/utils/income.ts';
-import {
-  getLoans,
-  createLoan,
-  updateLoan,
-  deleteLoan,
-  type CreateLoanInput,
-  type UpdateLoanInput,
-} from '../src/utils/loans.ts';
-import {
-  getRecurringItems,
-  createRecurringItem,
-  updateRecurringItem,
-  deleteRecurringItem,
-  generateRecurringExpenses,
-  type CreateRecurringItemInput,
-  type UpdateRecurringItemInput,
-} from '../src/utils/recurring-items.ts';
-import { calculateTotalLoanObligations, calculateMonthlyPayment } from '../src/utils/loans.ts';
-import { getInsights } from '../src/utils/insights.ts';
-import {
-  validateUUID,
-  validateAmount,
-  validateInterestRate,
-  validateTermMonths,
-  validateDayOfMonth,
-  validateBackdatedEntry,
-  validateFutureDate,
-  validateDescription,
-} from '../src/utils/validation.ts';
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { clerkAuthMiddleware, getSupabaseService, getUserId, supabaseMiddleware } from "./middleware/auth.middleware";
+import { getOrCreateUser } from "./utils/users";
+import { createCategory, CreateCategoryInput, getCategories, updateCategory, UpdateCategoryInput, deleteCategory } from "./utils/categories";
+import { getExpenses, getMonthlyExpensesByCategory, getTotalMonthlySpend, CreateExpenseInput, createExpense, UpdateExpenseInput, updateExpense, deleteExpense } from "./utils/expenses";
+import { getIncome, getTotalMonthlyIncome, CreateIncomeInput, createIncome, UpdateIncomeInput, updateIncome, deleteIncome } from "./utils/income";
+import { getLoans, CreateLoanInput, createLoan, UpdateLoanInput, updateLoan, deleteLoan, calculateTotalLoanObligations, calculateMonthlyPayment } from "./utils/loans";
+import { getRecurringItems, CreateRecurringItemInput, createRecurringItem, UpdateRecurringItemInput, updateRecurringItem, deleteRecurringItem, generateRecurringExpenses } from "./utils/recurring-items";
+import { validateUUID, validateAmount, validateBackdatedEntry, validateDescription, validateInterestRate, validateTermMonths, validateFutureDate, validateDayOfMonth } from "./utils/validation";
+// Use dynamic import for insights to avoid module initialization order issues
+// import { getInsights } from "./utils/insights";
 
 const app = new Hono();
 
@@ -74,12 +25,15 @@ app.use('*', clerkAuthMiddleware());
 // Apply Supabase middleware for database operations
 app.use('*', supabaseMiddleware());
 
-// Health check endpoint
-app.get('/health', (c) => {
-  return c.json({ status: 'ok' });
-});
+const welcomeStrings = [
+  'Hello Hono!',
+  'To learn more about Hono on Vercel, visit https://vercel.com/docs/frameworks/backend/hono'
+]
 
-// Get current authenticated user (auto-creates if doesn't exist)
+app.get('/', (c) => {
+  return c.text(welcomeStrings.join('\n\n'))
+})
+
 app.get('/api/me', async (c) => {
   const clerkUserId = getUserId(c);
 
@@ -1261,40 +1215,42 @@ app.get('/api/dashboard/monthly', async (c) => {
 });
 
 // Insights endpoint
-app.get('/api/insights', async (c) => {
-  const clerkUserId = getUserId(c);
+// app.get('/api/insights', async (c) => {
+//   const clerkUserId = getUserId(c);
 
-  if (!clerkUserId) {
-    return c.json({ error: 'Unauthorized' }, 401);
-  }
+//   if (!clerkUserId) {
+//     return c.json({ error: 'Unauthorized' }, 401);
+//   }
 
-  const supabaseService = getSupabaseService(c);
-  if (!supabaseService) {
-    return c.json({ error: 'Service unavailable' }, 500);
-  }
+//   const supabaseService = getSupabaseService(c);
+//   if (!supabaseService) {
+//     return c.json({ error: 'Service unavailable' }, 500);
+//   }
 
-  try {
-    const year = parseInt(c.req.query('year') || new Date().getFullYear().toString());
-    const month = parseInt(c.req.query('month') || (new Date().getMonth() + 1).toString());
+//   try {
+//     const year = parseInt(c.req.query('year') || new Date().getFullYear().toString());
+//     const month = parseInt(c.req.query('month') || (new Date().getMonth() + 1).toString());
 
-    if (isNaN(year) || isNaN(month) || month < 1 || month > 12) {
-      return c.json({ error: 'Invalid year or month' }, 400);
-    }
+//     if (isNaN(year) || isNaN(month) || month < 1 || month > 12) {
+//       return c.json({ error: 'Invalid year or month' }, 400);
+//     }
 
-    const insights = await getInsights(supabaseService, clerkUserId, year, month);
+//     // // Use dynamic import to avoid module initialization order issues
+//     // const { getInsights } = await import("./utils/insights");
+//     const insights = await getInsights(supabaseService, clerkUserId, year, month);
 
-    return c.json({
-      year,
-      month,
-      insights,
-    });
-  } catch (error) {
-    console.error('Error getting insights:', error);
-    return c.json(
-      { error: 'Failed to get insights', details: error instanceof Error ? error.message : 'Unknown error' },
-      500
-    );
-  }
-});
+//     return c.json({
+//       year,
+//       month,
+//       insights,
+//     });
+//   } catch (error) {
+//     console.error('Error getting insights:', error);
+//     return c.json(
+//       { error: 'Failed to get insights', details: error instanceof Error ? error.message : 'Unknown error' },
+//       500
+//     );
+//   }
+// });
 
-export default app.fetch;
+export default app

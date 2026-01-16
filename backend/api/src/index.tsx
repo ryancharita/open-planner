@@ -64,7 +64,7 @@ const app = new Hono();
 
 // Enable CORS for frontend
 app.use('*', cors({
-  origin: ['http://localhost:3000'],
+  origin: ['http://localhost:3000', "https://open-planner.vercel.app/"],
   credentials: true,
 }));
 
@@ -1299,9 +1299,11 @@ app.get('/api/insights', async (c) => {
 
 const port = process.env.PORT || 3000;
 
-export default {
-  port,
-  fetch: app.fetch,
-};
+// export default {
+//   port,
+//   fetch: app.fetch,
+// };
 
-console.log(`🚀 Server running at http://localhost:${port}`);
+export default app;
+
+// console.log(`🚀 Server running at http://localhost:${port}`);

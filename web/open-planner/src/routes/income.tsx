@@ -89,7 +89,7 @@ function IncomePage() {
       const token = await getToken();
       if (!token) throw new Error('Failed to get token');
 
-      const response = await fetch('import.meta.env.VITE_API_UPL/api/income', {
+      const response = await fetch(import.meta.env.VITE_API_UPL + '/api/income', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

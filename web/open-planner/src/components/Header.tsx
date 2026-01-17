@@ -66,15 +66,23 @@ export default function Header() {
       {/* Backdrop overlay */}
       <div
         onClick={() => setIsOpen(false)}
-        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-[400ms] ease-in-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-all duration-500 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
           }`}
+        style={{
+          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
       />
 
       <aside
-        className={`fixed top-0 left-0 h-full w-80 glass border-r border-white/10 text-white shadow-2xl z-50 transform transition-transform duration-[400ms] ease-in-out flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 left-0 h-full w-80 glass border-r border-white/10 text-white shadow-2xl z-50 flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
+        style={{
+          transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+          willChange: 'transform'
+        }}
       >
-        <div className="flex items-center justify-between p-5 border-b border-white/10 bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20">
+        <div className={`flex items-center justify-between p-5 border-b border-white/10 bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20 transition-all duration-300 ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'
+          }`}>
           {/* <h2 className="text-xl font-bold gradient-text">Navigation</h2> */}
           <Button
             onClick={() => setIsOpen(false)}
@@ -86,7 +94,8 @@ export default function Header() {
           </Button>
         </div>
 
-        <nav className="flex-1 p-4 overflow-y-auto space-y-1">
+        <nav className={`flex-1 p-4 overflow-y-auto space-y-1 transition-all duration-500 delay-100 ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4'
+          }`}>
           <Link
             to="/"
             onClick={() => setIsOpen(false)}

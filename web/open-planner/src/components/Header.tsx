@@ -63,12 +63,19 @@ export default function Header() {
         </div>
       </header>
 
+      {/* Backdrop overlay */}
+      <div
+        onClick={() => setIsOpen(false)}
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-[400ms] ease-in-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
+      />
+
       <aside
-        className={`fixed top-0 left-0 h-full w-80 glass border-r border-white/10 text-white shadow-2xl z-50 transform transition-all duration-300 ease-out flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 left-0 h-full w-80 glass border-r border-white/10 text-white shadow-2xl z-50 transform transition-transform duration-[400ms] ease-in-out flex flex-col ${isOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
       >
         <div className="flex items-center justify-between p-5 border-b border-white/10 bg-gradient-to-r from-violet-600/20 to-fuchsia-600/20">
-          <h2 className="text-xl font-bold gradient-text">Navigation</h2>
+          {/* <h2 className="text-xl font-bold gradient-text">Navigation</h2> */}
           <Button
             onClick={() => setIsOpen(false)}
             variant="ghost"

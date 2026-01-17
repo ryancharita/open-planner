@@ -24,8 +24,8 @@ cleanup() {
 trap cleanup INT TERM
 
 # Start API server on port 3001
-cd backend/api
-PORT=3001 bun run --hot src/index.tsx &
+cd backend/planer-api
+PORT=3001 bun run --hot src/index.ts &
 API_PID=$!
 cd ../..
 
